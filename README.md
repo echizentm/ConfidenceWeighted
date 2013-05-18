@@ -14,5 +14,5 @@ cw: confidence weighted. mode parameter is variance.
 scw: soft confidence weighted (proposition 1). mode parameter is aggressiveness.
 
 [EXAMPLE]
-$$ perl test.pl 0.7 1 3 cw < colors.csv
+$$ perl test.pl 0.7 cw 1 3 < colors.csv
 

@@ -5,7 +5,7 @@ use Data::Dumper;
 use ConfidenceWeighted;
 use SoftConfidenceWeighted;
 
-my ($confidence, $param, $dimension, $mode) = @ARGV;
+my ($confidence, $mode, $param, $dimension) = @ARGV;
 
 my $cw;;
 
