@@ -4,6 +4,7 @@ use warnings;
 use Data::Dumper;
 use ConfidenceWeighted;
 use SoftConfidenceWeighted;
+use FastSoftConfidenceWeighted;
 
 my ($confidence, $mode, $param, $dimension) = @ARGV;
 
@@ -25,8 +26,16 @@ if ($mode eq 'cw') {
         aggressiveness => $param,
         dimension      => $dimension,
     ));
+} elsif ($mode eq 'fscw') {
+    $cw = FastSoftConfidenceWeighted->new();
+    die "cannot create.\n" unless ($cw);
+    die "cannot initialize.\n" unless ($cw->initialize(
+        confidence     => $confidence,
+        aggressiveness => $param,
+        dimension      => $dimension,
+    ));
 } else {
-    die "mode must be 'cw' or 'scw'.\n";
+    die "mode must be 'cw', 'scw' or 'fscw'.\n";
 }
 
 while (my $line = <STDIN>) {
