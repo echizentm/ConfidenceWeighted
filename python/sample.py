@@ -1,11 +1,31 @@
 # -*- coding: utf-8 -*-
 
+import argparse
 import json
 from classifier import SoftConfidenceWeighted
 
 
 def main():
-    scw = SoftConfidenceWeighted()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-c',
+        '--confidence',
+        default=0.7,
+        type=float,
+        help='confidence parameter'
+    )
+    parser.add_argument(
+        '-a',
+        '--aggressiveness',
+        default=1.0,
+        type=float,
+        help='aggressiveness parameter'
+    )
+    args = parser.parse_args()
+    scw = SoftConfidenceWeighted(
+        confidence=args.confidence,
+        aggressiveness=args.aggressiveness,
+    )
 
     while(1):
         line = raw_input()
