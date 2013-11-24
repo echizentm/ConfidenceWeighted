@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+require 'confidence_weighted'
+
+require 'json'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: confidence_weighted [options]'
+
+  opts.on('-c', '--confidence [CONFIDENCE]', 'confidence parameter') do |confidence|
+    options[:confidence] = confidence.to_f
+  end
+
+  opts.on('-a', '--aggressiveness [AGGRESSIVENESS]', 'aggressiveness parameter') do |aggressiveness|
+    options[:aggressiveness] = aggressiveness.to_f
+  end
+end.parse!
+
+scw = ConfidenceWeighted::SoftConfidenceWeighted.new(options)
+ARGF.each do |line|
+  line.chomp!
+  break if line == ''
+  obj = JSON.parse(line)
+
+  print "[USAGE] [label, {feature:weight,...}]\n" unless obj.size == 2
+
+  if obj[0] == 0
+    obj[0] = scw.classify(obj[1])
+    print 'classify: ' + obj.to_json + "\n"
+  else
+    scw.update(obj[1], obj[0])
+    print 'update: ' + obj.to_json + "\n"
+  end
+end
